@@ -8,8 +8,39 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    let columns: [GridItem] = [
+        GridItem(.flexible()),
+        GridItem(.flexible()),
+        GridItem(.flexible())
+    ]
+    
     var body: some View {
-        Text("Hello, world!").padding()
+        NavigationView {
+            ScrollView {
+                LazyVGrid(columns: columns, spacing: 10, pinnedViews: [.sectionHeaders]) {
+                    
+                    ForEach(1..<11) { index in
+                        Section(header: headerView(index)) {
+                            ForEach(1..<20) { _ in
+                                Rectangle()
+                                    .fill(Color.red)
+                                    .aspectRatio(contentMode: .fit)
+                            }
+                        }
+                    }
+                }.padding()
+            }.navigationTitle("Pinned Views")
+        }
+    }
+    
+    private func headerView(_ index: Int) -> some View {
+        Text("Section \(index)")
+            .padding()
+            .foregroundColor(Color.white)
+            .font(.title)
+            .frame(maxWidth: .infinity)
+            .background(Color.blue)
     }
 }
 
